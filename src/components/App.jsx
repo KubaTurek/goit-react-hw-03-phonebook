@@ -71,21 +71,19 @@ class App extends Component {
     return filteredContacts;
   };
 
+  componentDidMount() {
+    const localStorageContacts = JSON.parse(localStorage.getItem('contacts'));
 
-componentDidMount() {
+    if (localStorageContacts) {
+      this.setState({ contacts: localStorageContacts });
+    }
+  }
 
- const localStorageContacts = JSON.parse(localStorage.getItem("contacts")); 
-
- if(localStorageContacts) {
-  this.setState({contacts: localStorageContacts})
- }
-}
-
-componentDidUpdate() {
-
-  localStorage.setItem("contacts", JSON.stringify(this.state.contacts))
-}
-
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts.length !== this.state.contacts.length) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   render() {
     const filtered = this.filterContacts();
